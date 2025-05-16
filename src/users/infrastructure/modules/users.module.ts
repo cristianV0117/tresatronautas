@@ -11,6 +11,8 @@ import { UsersLoginController } from '../controllers/users-login.controller';
 import { UsersLoginUseCase } from 'src/users/application/users-login.usecase';
 import { UsersLoginMongoImplementation } from '../implementations/users-login-mongo.implementation';
 import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy } from '../../../shared/infrastructure/strategies/jwt.strategy';
+import { JwtAuthGuard } from '../../../shared/infrastructure/guards/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { JwtModule } from '@nestjs/jwt';
   ],
   controllers: [UsersStoreController, UsersLoginController],
   providers: [
+    JwtStrategy,
+    JwtAuthGuard,
     UsersStoreUseCase,
     { provide: 'UsersRepository', useClass: UsersMongoImplementation },
     UsersLoginUseCase,
