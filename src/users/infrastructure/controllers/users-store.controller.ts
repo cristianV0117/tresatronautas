@@ -5,7 +5,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Exceptions } from 'src/shared/domain/exceptions';
 
 @ApiTags('Users')
-@Controller('users')
+@Controller('auth/register')
 export class UsersStoreController {
   constructor(private readonly userStoreUseCase: UsersStoreUseCase) {}
 

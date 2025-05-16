@@ -6,7 +6,7 @@ import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Login')
 @ApiOkResponse({ type: LoginResponseDTO, description: 'Login exitoso' })
-@Controller('login')
+@Controller('auth/login')
 export class UsersLoginController {
   constructor(private readonly usersLoginUseCase: UsersLoginUseCase) {}
 
