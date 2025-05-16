@@ -1,4 +1,5 @@
 import * as bcrypt from 'bcrypt';
+import { UserInvalidDataException } from '../exceptions/users-invalid-data.exception';
 
 export class UsersStoreValueObject {
   constructor(
@@ -6,7 +7,24 @@ export class UsersStoreValueObject {
     private email: string,
     private password: string,
   ) {
+    this.validate();
     this.encriptPassword();
+  }
+
+  private validate() {
+    if (!this.name || this.name.length < 3) {
+      throw new UserInvalidDataException('Name is too short');
+    }
+
+    if (!this.email || !this.email.includes('@')) {
+      throw new UserInvalidDataException('Invalid email');
+    }
+
+    if (!this.password || this.password.length < 6) {
+      throw new UserInvalidDataException(
+        'Password must be at least 6 characters',
+      );
+    }
   }
 
   private encriptPassword() {

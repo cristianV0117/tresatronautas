@@ -4,6 +4,7 @@ import {
   UserDocument,
   UserModel,
 } from 'src/shared/infrastructure/schemas/user.schema';
+import { UsersEmailAlreadyExistsException } from 'src/users/domain/exceptions/users-email-already-exists.exception';
 import { UsersRepository } from 'src/users/domain/repositories/users.repository';
 import { User } from 'src/users/domain/User';
 import { UsersStoreValueObject } from 'src/users/domain/valueObjects/users-store.valueObject';
@@ -17,19 +18,27 @@ export class UsersMongoImplementation implements UsersRepository {
   async store(userStore: UsersStoreValueObject): Promise<User> {
     const value = userStore.value();
 
-    const createdUser = await this.userModel.create({
-      fullName: value.name,
-      email: value.email,
-      password: value.password,
-    });
+    try {
+      const createdUser = await this.userModel.create({
+        fullName: value.name,
+        email: value.email,
+        password: value.password,
+      });
 
-    return new User(
-      createdUser._id.toString(),
-      createdUser.fullName,
-      createdUser.email,
-      createdUser.password,
-      createdUser.createdAt,
-      createdUser.updatedAt,
-    );
+      return new User(
+        createdUser._id.toString(),
+        createdUser.fullName,
+        createdUser.email,
+        createdUser.password,
+        createdUser.createdAt,
+        createdUser.updatedAt,
+      );
+    } catch (error: any) {
+      if (error.code === 11000 && error.keyPattern?.email) {
+        throw new UsersEmailAlreadyExistsException(value.email);
+      }
+
+      throw error;
+    }
   }
 }
