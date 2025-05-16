@@ -10,9 +10,9 @@ export class UsersStoreController {
   constructor(private readonly userStoreUseCase: UsersStoreUseCase) {}
 
   @Post()
-  store(@Body() body: UserDTO) {
+  async store(@Body() body: UserDTO) {
     try {
-      return this.userStoreUseCase.store(body);
+      return await this.userStoreUseCase.store(body);
     } catch (error) {
       if (error instanceof Exceptions) {
         throw new BadRequestException(error.message);

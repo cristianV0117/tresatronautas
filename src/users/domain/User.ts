@@ -1,34 +1,48 @@
 export class User {
   constructor(
-    private readonly id: string,
-    private readonly fullName: string,
-    private readonly email: string,
-    private readonly password: string,
-    private readonly createdAt: Date,
-    private readonly updatedAt: Date,
+    private props: {
+      id?: string;
+      name?: string;
+      email?: string;
+      password?: string;
+      createdAt?: Date;
+      updatedAt?: Date;
+      token?: string;
+    },
   ) {}
 
-  public getId(): string {
-    return this.id;
+  toJSON() {
+    return {
+      id: this.getId(),
+      name: this.getName(),
+      email: this.getEmail(),
+      createdAt: this.getCreatedAt(),
+      updatedAt: this.getUpdatedAt(),
+      token: this.getToken(),
+    };
   }
 
-  public getFullName(): string {
-    return this.fullName;
+  public getId(): string {
+    return this.props.id;
+  }
+
+  public getName(): string {
+    return this.props.name;
   }
 
   public getEmail(): string {
-    return this.email;
-  }
-
-  public getPassword(): string {
-    return this.password;
+    return this.props.email;
   }
 
   public getCreatedAt(): Date {
-    return this.createdAt;
+    return this.props.createdAt;
   }
 
   public getUpdatedAt(): Date {
-    return this.updatedAt;
+    return this.props.updatedAt;
+  }
+
+  public getToken(): string {
+    return this.props.token;
   }
 }

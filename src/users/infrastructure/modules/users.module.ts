@@ -7,15 +7,28 @@ import {
   UserModel,
   UserSchema,
 } from 'src/shared/infrastructure/schemas/user.schema';
+import { UsersLoginController } from '../controllers/users-login.controller';
+import { UsersLoginUseCase } from 'src/users/application/users-login.usecase';
+import { UsersLoginMongoImplementation } from '../implementations/users-login-mongo.implementation';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: UserModel.name, schema: UserSchema }]),
+    JwtModule.register({
+      secret: process.env.JWT_SECRET || 'secretKey',
+      signOptions: { expiresIn: '1d' },
+    }),
   ],
-  controllers: [UsersStoreController],
+  controllers: [UsersStoreController, UsersLoginController],
   providers: [
     UsersStoreUseCase,
     { provide: 'UsersRepository', useClass: UsersMongoImplementation },
+    UsersLoginUseCase,
+    {
+      provide: 'UsersLoginRepository',
+      useClass: UsersLoginMongoImplementation,
+    },
   ],
 })
 export class UsersModule {}

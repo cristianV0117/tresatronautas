@@ -25,14 +25,14 @@ export class UsersMongoImplementation implements UsersRepository {
         password: value.password,
       });
 
-      return new User(
-        createdUser._id.toString(),
-        createdUser.fullName,
-        createdUser.email,
-        createdUser.password,
-        createdUser.createdAt,
-        createdUser.updatedAt,
-      );
+      return new User({
+        id: createdUser._id.toString(),
+        name: createdUser.fullName,
+        email: createdUser.email,
+        password: createdUser.password,
+        createdAt: createdUser.createdAt,
+        updatedAt: createdUser.updatedAt,
+      });
     } catch (error: any) {
       if (error.code === 11000 && error.keyPattern?.email) {
         throw new UsersEmailAlreadyExistsException(value.email);

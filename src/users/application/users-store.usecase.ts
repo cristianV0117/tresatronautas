@@ -10,8 +10,8 @@ export class UsersStoreUseCase {
     @Inject('UsersRepository') private readonly UserRepository: UsersRepository,
   ) {}
 
-  store(body: UserDTO): Promise<User> {
-    return this.UserRepository.store(
+  async store(body: UserDTO): Promise<User> {
+    return await this.UserRepository.store(
       new UsersStoreValueObject(body.name, body.email, body.password),
     );
   }
