@@ -9,7 +9,7 @@ export class ProductsIndexUseCase {
     private readonly ProductRepository: ProductsRepository,
   ) {}
 
-  async index(): Promise<Product[]> {
-    return await this.ProductRepository.index();
+  async index(ownerId: string): Promise<Product[]> {
+    return await this.ProductRepository.index(ownerId);
   }
 }

@@ -7,3 +7,11 @@ export class UserLoginDTO {
   @ApiProperty()
   password: string;
 }
+
+export class LoginResponseDTO {
+  @ApiProperty()
+  email: string;
+
+  @ApiProperty()
+  token: string;
+}

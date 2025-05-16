@@ -6,9 +6,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Tres Astronautas API test')
-    .setDescription('Documentación de la API de usuarios')
+    .setTitle('Tres Astronautas API test - Cristian vasquez 2025')
+    .setDescription('Documentación de la API')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

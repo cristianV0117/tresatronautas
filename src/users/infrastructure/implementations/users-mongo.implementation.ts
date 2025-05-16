@@ -20,14 +20,14 @@ export class UsersMongoImplementation implements UsersRepository {
 
     try {
       const createdUser = await this.userModel.create({
-        fullName: value.name,
+        name: value.name,
         email: value.email,
         password: value.password,
       });
 
       return new User({
         id: createdUser._id.toString(),
-        name: createdUser.fullName,
+        name: createdUser.name,
         email: createdUser.email,
         password: createdUser.password,
         createdAt: createdUser.createdAt,

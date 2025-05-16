@@ -11,6 +11,8 @@ import { ProductsIndexController } from '../controllers/products-index.controlle
 import { ProductsIndexUseCase } from 'src/products/application/products-index.usecase';
 import { ProductsShowUseCase } from 'src/products/application/products-show.usecase';
 import { ProductsShowController } from '../controllers/products-show.controller';
+import { ProductsDeleteController } from '../controllers/products-delete.controller';
+import { ProductsDeleteUseCase } from 'src/products/application/products-delete.usecase';
 
 @Module({
   imports: [
@@ -22,11 +24,13 @@ import { ProductsShowController } from '../controllers/products-show.controller'
     ProductsIndexController,
     ProductsStoreController,
     ProductsShowController,
+    ProductsDeleteController,
   ],
   providers: [
     ProductsStoreUseCase,
     ProductsIndexUseCase,
     ProductsShowUseCase,
+    ProductsDeleteUseCase,
     { provide: 'ProductRepository', useClass: ProductsMongoImplementation },
   ],
 })

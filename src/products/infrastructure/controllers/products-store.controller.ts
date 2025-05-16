@@ -6,13 +6,14 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ProductDTO } from '../dtos/products.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Exceptions } from 'src/shared/domain/exceptions';
 import { ProductsStoreUseCase } from 'src/products/application/products-store.usecase';
 import { JwtAuthGuard } from 'src/shared/infrastructure/guards/jwt-auth.guard';
 import { CurrentUser } from 'src/shared/infrastructure/decorators/current-user.decorator';
 
 @ApiTags('Products')
+@ApiBearerAuth()
 @Controller('products')
 @UseGuards(JwtAuthGuard)
 export class ProductsStoreController {

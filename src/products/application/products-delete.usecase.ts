@@ -1,16 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ProductsRepository } from '../domain/repositories/products.repository';
-import { Product } from '../domain/Product';
 import { ProductIdDTO } from '../infrastructure/dtos/products.dto';
 
 @Injectable()
-export class ProductsShowUseCase {
+export class ProductsDeleteUseCase {
   constructor(
     @Inject('ProductRepository')
     private readonly ProductRepository: ProductsRepository,
   ) {}
 
-  async show(id: ProductIdDTO, ownerId: string): Promise<Product> {
-    return await this.ProductRepository.show(id.id, ownerId);
+  async delete(id: ProductIdDTO, ownerId: string): Promise<void> {
+    return await this.ProductRepository.delete(id.id, ownerId);
   }
 }

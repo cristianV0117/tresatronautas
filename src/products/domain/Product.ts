@@ -1,10 +1,12 @@
+import { User } from 'src/users/domain/User';
+
 export class Product {
   constructor(
     private props: {
       id?: string;
       name?: string;
       price?: number;
-      owner?: string;
+      owner?: User | string;
       isActive?: boolean;
       createdAt?: Date;
       updatedAt?: Date;
@@ -13,13 +15,13 @@ export class Product {
 
   toJSON() {
     return {
-      id: this.props.id,
-      name: this.props.name,
-      price: this.props.price,
-      owner: this.props.owner,
-      isActive: this.props.isActive,
-      createdAt: this.props.createdAt,
-      updatedAt: this.props.updatedAt,
+      id: this.getId(),
+      name: this.getName(),
+      price: this.getPrice(),
+      owner: this.getOwner(),
+      isActive: this.isActive(),
+      createdAt: this.getCreatedAt(),
+      updatedAt: this.getUpdatedAt(),
     };
   }
 
@@ -36,7 +38,15 @@ export class Product {
   }
 
   public getOwner() {
-    return this.props.owner;
+    if (typeof this.props.owner === 'string') {
+      return this.props.owner;
+    } else {
+      return {
+        id: this.props.owner?.getId(),
+        name: this.props.owner?.getName(),
+        email: this.props.owner?.getEmail(),
+      };
+    }
   }
 
   public getCreatedAt() {
