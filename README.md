@@ -44,9 +44,9 @@ El proyecto está estructurado en módulos siguiendo una **arquitectura hexagona
 * `POST /auth/register` - Registrar usuario
 * `POST /auth/login` - Login y obtener token JWT
 * `GET /products` - Listar productos del usuario
-* `POST /products` - Crear producto (requiere JWT)
+* `POST /products` - Crear producto
 * `GET /products/:id` - Obtener un producto por ID
-* `DELETE /products/:id` - Borrar un producto (requiere ser el dueño)
+* `DELETE /products/:id` - Borrar un producto
 
 ## 🔹 Validación con Core Fake
 
@@ -56,9 +56,9 @@ Cuando se crea o actualiza un producto, se simula una llamada POST a:
 POST http://mock-core.com/validate
 ```
 
-* Se envía el `name` y `price`
+* Se envía el `price`
 * Si `price < 10`, el producto es rechazado como inválido
-* El campo `validated` es almacenado en la base de datos
+* El campo `isValid` se alamcena en memoria en un VO y reporta la excepcion si no se cumple la condición 
 
 ## 🛠️ Tests
 
