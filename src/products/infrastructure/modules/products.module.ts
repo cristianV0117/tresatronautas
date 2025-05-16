@@ -13,6 +13,9 @@ import { ProductsShowUseCase } from 'src/products/application/products-show.usec
 import { ProductsShowController } from '../controllers/products-show.controller';
 import { ProductsDeleteController } from '../controllers/products-delete.controller';
 import { ProductsDeleteUseCase } from 'src/products/application/products-delete.usecase';
+import { CoreValidatorFakeService } from '../services/core-validator.service';
+import { ProductsUpdateController } from '../controllers/products-update.controller';
+import { ProductsUpdateUseCase } from 'src/products/application/products-update.usecase';
 
 @Module({
   imports: [
@@ -25,13 +28,19 @@ import { ProductsDeleteUseCase } from 'src/products/application/products-delete.
     ProductsStoreController,
     ProductsShowController,
     ProductsDeleteController,
+    ProductsUpdateController,
   ],
   providers: [
     ProductsStoreUseCase,
     ProductsIndexUseCase,
     ProductsShowUseCase,
+    ProductsUpdateUseCase,
     ProductsDeleteUseCase,
     { provide: 'ProductRepository', useClass: ProductsMongoImplementation },
+    {
+      provide: 'CoreValidatorService',
+      useClass: CoreValidatorFakeService,
+    },
   ],
 })
 export class ProductsModule {}

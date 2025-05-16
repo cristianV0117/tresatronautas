@@ -91,6 +91,57 @@ export class ProductsMongoImplementation implements ProductsRepository {
     });
   }
 
+  async update(
+    id: string,
+    ownerId: string,
+    productStore: ProductsStoreValueObject,
+  ): Promise<Product> {
+    const objectId = new Types.ObjectId(id);
+
+    const product = await this.productModel.findOne({
+      _id: objectId,
+      isActive: true,
+    });
+
+    if (!product) {
+      throw new ProductNotFoundException(id);
+    }
+
+    console.log(product.owner.toString(), ownerId);
+    if (product.owner.toString() !== ownerId) {
+      throw new UserNotAuthorizedException();
+    }
+
+    const updatedProduct = await this.productModel
+      .findOneAndUpdate(
+        { _id: objectId },
+        {
+          name: productStore.getName(),
+          price: productStore.getPrice(),
+          updatedAt: new Date(),
+        },
+        { new: true },
+      )
+      .populate('owner');
+
+    if (!updatedProduct) {
+      throw new ProductNotFoundException(id);
+    }
+    const owner = updatedProduct.owner as any;
+    return new Product({
+      id: updatedProduct._id.toString(),
+      name: updatedProduct.name,
+      price: updatedProduct.price,
+      owner: new User({
+        id: updatedProduct.owner._id.toString(),
+        name: owner.name,
+        email: owner.email,
+      }),
+      createdAt: updatedProduct.createdAt,
+      updatedAt: updatedProduct.updatedAt,
+    });
+  }
+
   async delete(id: string, ownerId: string): Promise<void> {
     const objectId = new Types.ObjectId(id);
 
