@@ -7,3 +7,8 @@ export class ProductDTO {
   @ApiProperty()
   price: number;
 }
+
+export class ProductIdDTO {
+  @ApiProperty()
+  id: string;
+}

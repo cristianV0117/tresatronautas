@@ -14,6 +14,21 @@ export class ProductsMongoImplementation implements ProductsRepository {
     private readonly productModel: Model<ProductDocument>,
   ) {}
 
+  async index(): Promise<Product[]> {
+    const products = await this.productModel.find({ isActive: true });
+
+    return products.map((product) => {
+      return new Product({
+        id: product._id.toString(),
+        name: product.name,
+        price: product.price,
+        owner: product.owner.toString(),
+        createdAt: product.createdAt,
+        updatedAt: product.updatedAt,
+      });
+    });
+  }
+
   async store(productStore: ProductsStoreValueObject): Promise<Product> {
     console.log(productStore.getId());
 
@@ -31,6 +46,26 @@ export class ProductsMongoImplementation implements ProductsRepository {
       owner: createdProduct.owner.toString(),
       createdAt: createdProduct.createdAt,
       updatedAt: createdProduct.updatedAt,
+    });
+  }
+
+  async show(id: string): Promise<Product> {
+    const product = await this.productModel.findOne({
+      _id: id,
+      isActive: true,
+    });
+
+    if (!product) {
+      return null;
+    }
+
+    return new Product({
+      id: product._id.toString(),
+      name: product.name,
+      price: product.price,
+      owner: product.owner.toString(),
+      createdAt: product.createdAt,
+      updatedAt: product.updatedAt,
     });
   }
 }
